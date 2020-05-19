@@ -1,2 +1,2 @@
-# python_cron_migration
+# python-cron-migration
 manage your crontab through python
