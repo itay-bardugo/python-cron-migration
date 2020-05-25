@@ -17,10 +17,13 @@ class CommandsManager:
         return wrapper
 
     def _get_app(self, *args, **kwargs):
-        target = self._get_command()
         if self._instance_exists():
-            return target
-        return target(*args, **kwargs)
+            return
+        self._cache_app(*args, **kwargs)
+        return self._get_command()
+
+    def _cache_app(self, *args, **kwargs):
+        CommandsManager.__commands[self._request] = self._get_command()(*args, **kwargs)
 
     def _get_command(self):
         return CommandsManager.__commands[self._request]
