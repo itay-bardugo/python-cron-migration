@@ -1,11 +1,12 @@
 import os
-
+from datetime import datetime
 
 class Output:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     OKGREEN = '\033[92m'
     RED = '\033[31m'
+    RESET = '\033[0m'
 
     @staticmethod
     def red(msg):
@@ -25,7 +26,7 @@ class Output:
 
     @staticmethod
     def _print(output, color=""):
-        print(color + output, end=os.linesep)
+        print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), color, output, __class__.RESET, end=os.linesep, sep="\t")
 
     @staticmethod
     def printed_task(pre_print: callable = "", pre_msg: callable = "", on_success_color: callable = "",
