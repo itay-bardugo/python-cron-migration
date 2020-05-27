@@ -1,15 +1,14 @@
 from .manager import CommandsManager
+from cron_migration.system.meta.proxies import SimpleProxyMeta
 
 
-class _Class(type):
-    _service = CommandsManager()
+class OperationProxy(SimpleProxyMeta):
 
-    def __getattr__(cls, item):
-        def wrapper(*args, **kwargs):
-            return getattr(_Class._service, item)(*args, **kwargs)
-
-        return wrapper
+    def _fwd_object(cls):
+        return CommandsManager()
 
 
-class OperationsFacade(metaclass=_Class):
-    ...
+class OperationsFacade(metaclass=OperationProxy):
+    """
+    A proxy class to OpeartaionManager
+    """

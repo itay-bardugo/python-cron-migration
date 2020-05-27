@@ -2,7 +2,7 @@ from cron_migration.app import manager as app_manager
 from cron_migration.files.managers import files as files_manager
 from cron_migration.files.models.path import Path
 from cron_migration.files.managers.path import PathManager
-from cron_migration.app.models.new_environment import NewEnvironment
+from cron_migration.app.models.environment import Environment
 from cron_migration.app import exist_codes
 from cron_migration.cli.models.command import BaseCommand
 from cron_migration.cli.manager import CommandsManager
@@ -10,7 +10,7 @@ from cron_migration.cli.manager import CommandsManager
 
 @CommandsManager.bind("init")
 class Init(BaseCommand):
-    def __init__(self, env: NewEnvironment):
+    def __init__(self, env: Environment):
         self._env = env
         self._path_manager = PathManager()
         self._path_manager.set_path(self._env.path)
