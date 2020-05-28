@@ -2,12 +2,14 @@ from cron_migration.revisions.model import Revision
 from .mapper import RevisionMap
 import uuid
 import datetime
+from mako.template import Template
 
 
 class NewRevisionService:
-    def __init__(self, revision: Revision, revision_map: 'RevisionMap'):
+    def __init__(self, revision: Revision, revision_map: 'RevisionMap', environment: 'Environment'):
         self._revision = revision
         self._mapper = revision_map
+        self._environment = environment
 
     def _set_revision_signature(self, sig=None):
         self._revision.signature = uuid.uuid4().hex.strip("-")[-16:] if sig is None else sig
@@ -22,16 +24,30 @@ class NewRevisionService:
         return self._revision.message
 
     def _set_head(self):
-        self._mapper.get_review()
-        for revision in self._mapper.stream_revisions():
-            ...
+        ...
 
     def get(self):
         return self._revision
+
+    def review(self):
+        self._mapper.review()
+
+    def _create_template_file(self):
+        revision = self.get()
+        template = Template(filename=u"{}".format(self._environment.get_script_path().path))
+        dst = u"{}_{}.py".format(revision.signature, revision.message)
+        with open(self._environment.get_revisions_path(dst).path, "wb") as f:
+            f.write(
+                template.render_unicode(
+                    revision=revision.signature,
+                    prev_revision=revision.down_revision
+                ).encode("utf-8")
+            )
 
     def create_revision(self, message):
         self._set_revision_signature()
         self._set_date()
         self._set_message(message)
         self._set_head()
+        self._create_template_file()
         return self.get()

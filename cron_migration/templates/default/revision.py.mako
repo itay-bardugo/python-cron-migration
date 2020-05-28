@@ -10,9 +10,13 @@ class Revision(Task):
 
     @classmethod
     def get_revision_id(cls) -> str:
-        return ""
+        return "${revision}"
 
     @classmethod
     def get_prev_revision_id(cls) -> str:
-        pass
+        % if prev_revision is None:
+        return ""
+        % else:
+        return "${prev_revision}"
+        % endif
 

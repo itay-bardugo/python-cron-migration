@@ -10,6 +10,7 @@ class MakeRevision(BaseCommand):
         self._message = message
 
     def run(self):
+        self._new_revision_service.review()
         self._new_revision_service.create_revision(self._message)
 
         return None

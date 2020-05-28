@@ -13,7 +13,7 @@ class Init(BaseCommand):
     def __init__(self, env: Environment):
         self._env = env
         self._path_manager = PathManager()
-        self._path_manager.set_path(self._env.path)
+        self._path_manager.set_path(self._env._path)
         self._template = None
 
     @BaseCommand._output.printed_task(
@@ -50,7 +50,7 @@ class Init(BaseCommand):
         success_indicator=None
     )
     def _copy_files(self):
-        if isinstance(err := files_manager.copy_tree(Path(self._template), self._env.path), int):
+        if isinstance(err := files_manager.copy_tree(Path(self._template), self._env._path), int):
             return err
         return None
 

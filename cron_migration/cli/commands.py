@@ -26,10 +26,10 @@ def revision():
 @click.argument("message")
 def make(message, dir_name):
     environment.path = Path(os.path.join(os.getcwd(), dir_name))
-    revision_service = NewRevisionService(Revision(), RevisionMap(environment))
+    revision_service = NewRevisionService(Revision(), RevisionMap(environment), environment)
     OperationsFacade.make_revision(revision_service, message)
 
 
 if __name__ == '__main__':
-    # init()
+    #init()
     revision()
