@@ -6,7 +6,6 @@ class Revision:
         self.signature: str = kwargs.get("signature", "")
         self._message: str = kwargs.get("message", "")
         self.date = kwargs.get("date", "")
-        self.head = None
         self.down_revision = None
 
     def __str__(self):

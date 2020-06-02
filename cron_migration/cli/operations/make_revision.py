@@ -10,7 +10,16 @@ class MakeRevision(BaseCommand):
         self._message = message
 
     def run(self):
-        self._new_revision_service.review()
-        self._new_revision_service.create_revision(self._message)
+        filename = self._new_revision_service.make_revision_file(self._message)
+        log = BaseCommand._output.printed_task(
+            BaseCommand._output.blue,
+            "generating revision file...",
+            BaseCommand._output.green,
+            filename,
+            BaseCommand._output.red,
+            "Failed!",
+            success_indicator=str
+        )(lambda: filename)
+        log()
 
         return None

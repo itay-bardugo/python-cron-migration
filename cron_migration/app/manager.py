@@ -1,7 +1,7 @@
 from cron_migration.conf import templates
 from cron_migration.files.managers.path import PathManager
 from cron_migration.files.models.path import Path
-from cron_migration.app import exist_codes
+from cron_migration.app import exit_codes
 import os
 
 
@@ -14,5 +14,5 @@ def get_template(template):
     path_manager = PathManager()
     path_manager.set_path(path)
     if not path_manager.is_dir():
-        return exist_codes.INVALID_TEMPLATE
+        return exit_codes.INVALID_TEMPLATE
     return path.path

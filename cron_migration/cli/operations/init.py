@@ -3,7 +3,7 @@ from cron_migration.files.managers import files as files_manager
 from cron_migration.files.models.path import Path
 from cron_migration.files.managers.path import PathManager
 from cron_migration.app.models.environment import Environment
-from cron_migration.app import exist_codes
+from cron_migration.app import exit_codes
 from cron_migration.cli.models.command import BaseCommand
 from cron_migration.cli.manager import CommandsManager
 
@@ -27,7 +27,7 @@ class Init(BaseCommand):
     )
     def _path_exists(self):
         if self._path_manager.is_dir():
-            return exist_codes.FOLDER_ALREADY_EXISTS
+            return exit_codes.FOLDER_ALREADY_EXISTS
         return None
 
     @BaseCommand._output.printed_task(
@@ -65,7 +65,7 @@ class Init(BaseCommand):
     )
     def _remove_files(self):
         if (self._path_manager.remove_tree()) is not True:
-            return exist_codes.COULD_NOT_REMOVE_BASE_FOLDER
+            return exit_codes.COULD_NOT_REMOVE_BASE_FOLDER
         return None
 
     @BaseCommand._output.printed_task(
@@ -79,7 +79,7 @@ class Init(BaseCommand):
         if not self._path_manager.has_access():
             if error := self._remove_files():
                 return error
-            return exist_codes.PATH_NO_ACCESS
+            return exit_codes.PATH_NO_ACCESS
         return True
 
     @BaseCommand._output.printed_task(

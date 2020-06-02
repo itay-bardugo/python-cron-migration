@@ -1,12 +1,12 @@
 from cron_migration.revisions.model import Revision
-from .mapper import RevisionMap
+from .mapper import RevisionMapper
 import uuid
 import datetime
 from mako.template import Template
 
 
 class NewRevisionService:
-    def __init__(self, revision: Revision, revision_map: 'RevisionMap', environment: 'Environment'):
+    def __init__(self, revision: Revision, revision_map: 'RevisionMapper', environment: 'Environment'):
         self._revision = revision
         self._mapper = revision_map
         self._environment = environment
@@ -23,8 +23,8 @@ class NewRevisionService:
         self._revision.message = message
         return self._revision.message
 
-    def _set_head(self):
-        ...
+    def _set_down_revision(self, down_revision):
+        self._revision.down_revision = down_revision
 
     def get(self):
         return self._revision
@@ -32,7 +32,7 @@ class NewRevisionService:
     def review(self):
         self._mapper.review()
 
-    def _create_template_file(self):
+    def _make_template_file(self):
         revision = self.get()
         template = Template(filename=u"{}".format(self._environment.get_script_path().path))
         dst = u"{}_{}.py".format(revision.signature, revision.message)
@@ -40,14 +40,16 @@ class NewRevisionService:
             f.write(
                 template.render_unicode(
                     revision=revision.signature,
-                    prev_revision=revision.down_revision
+                    prev_revision=revision.down_revision,
+                    date=revision.date
                 ).encode("utf-8")
             )
+        return self._environment.get_revisions_path(dst).path
 
-    def create_revision(self, message):
+    def make_revision_file(self, message):
+        self.review()
         self._set_revision_signature()
         self._set_date()
         self._set_message(message)
-        self._set_head()
-        self._create_template_file()
-        return self.get()
+        self._set_down_revision(self._mapper.get_latest_revision())
+        return self._make_template_file()
