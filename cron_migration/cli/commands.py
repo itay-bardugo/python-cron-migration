@@ -5,6 +5,7 @@ from cron_migration.files.models.path import Path
 from cron_migration.cli import OperationsFacade
 from cron_migration.revisions.model import Revision
 from cron_migration.revisions.services.new_revision import NewRevisionService
+from cron_migration.revisions.services.upgrade import UpgradeService
 from cron_migration.revisions.services.mapper import RevisionMapper
 
 
@@ -28,6 +29,14 @@ def make(message, dir_name):
     environment.path = Path(os.path.join(os.getcwd(), dir_name))
     revision_service = NewRevisionService(Revision(), RevisionMapper(environment), environment)
     OperationsFacade.make_revision(revision_service, message)
+
+
+@revision.command()
+@click.option('-n', '--dir-name', default="cronjobs")
+def upgrade(dir_name):
+    environment.path = Path(os.path.join(os.getcwd(), dir_name))
+    revision_service = UpgradeService(RevisionMapper(environment), environment)
+    OperationsFacade.upgrade(revision_service)
 
 
 if __name__ == '__main__':

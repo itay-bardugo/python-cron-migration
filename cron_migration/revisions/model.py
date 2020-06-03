@@ -16,5 +16,5 @@ class Revision:
         return os.path.normpath(self._message)
 
     @message.setter
-    def message(self, m):
-        self._message = m
+    def message(self, m: str):
+        self._message = m.replace(" ", "_")

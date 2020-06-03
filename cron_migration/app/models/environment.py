@@ -19,6 +19,9 @@ class Environment:
             )
         )
 
+    def path_from_base(self, *args):
+        return self._path.join(*args)
+
     def get_revisions_path(self, filename=None) -> Path:
         return Path(
             path=os.path.join(

@@ -41,7 +41,8 @@ class NewRevisionService:
                 template.render_unicode(
                     revision=revision.signature,
                     prev_revision=revision.down_revision,
-                    date=revision.date
+                    date=revision.date,
+                    message=revision.message
                 ).encode("utf-8")
             )
         return self._environment.get_revisions_path(dst).path

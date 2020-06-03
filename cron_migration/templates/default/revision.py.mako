@@ -1,7 +1,10 @@
 from cron_migration.revisions.task import Task
 
+"""
+Date: ${date}
+message: ${message}
+"""
 
-# Date: 02/06/2020 20:52:09
 
 class Revision(Task):
     def upgrade(self):
