@@ -20,9 +20,10 @@ class Revision(Task):
             'month': "*",
             'week_day': "*"
         }
+        self.user = None
 
     def upgrade(self):
-        crontab = Crontab(user=None)
+        crontab = Crontab(user=self.user)
         job = crontab.new_job(command=self.command, **self.timing)
         # scheduler = Scheduler()
         # scheduler.at_midnight()
@@ -30,7 +31,7 @@ class Revision(Task):
         crontab.insert(job)
 
     def downgrade(self):
-        crontab = Crontab(user=None)
+        crontab = Crontab(user=self.user)
         job = crontab.new_job(command=self.command, **self.timing)
         # scheduler = Scheduler()
         # scheduler.at_midnight()

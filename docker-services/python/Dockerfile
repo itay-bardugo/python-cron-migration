@@ -139,7 +139,6 @@ RUN apk add --no-cache openrc
 RUN apk add --no-cache tini openrc busybox-initscripts
 RUN apk add --update busybox-suid
 
-RUN crond -b
 RUN adduser -D -g '' ubuntu
 
 

@@ -42,7 +42,6 @@ class Crontab:
             os.unlink(path)
         except:
             ...
-
         with open(path, "a") as f:
             for command in commands:
                 f.write(command)
