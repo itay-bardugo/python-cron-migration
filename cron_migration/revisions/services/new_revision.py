@@ -29,7 +29,7 @@ class NewRevisionService:
     def get(self):
         return self._revision
 
-    def review(self):
+    def _review(self):
         self._mapper.review()
 
     def _make_template_file(self):
@@ -48,7 +48,7 @@ class NewRevisionService:
         return self._environment.get_revisions_path(dst).path
 
     def make_revision_file(self, message):
-        self.review()
+        self._review()
         self._set_revision_signature()
         self._set_date()
         self._set_message(message)

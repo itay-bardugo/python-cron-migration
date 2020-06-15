@@ -5,7 +5,7 @@ import datetime
 from mako.template import Template
 
 
-class UpgradeService:
+class DowngradeService:
     def __init__(self, revision_map: 'RevisionMapper', environment: 'Environment'):
         self._mapper = revision_map
         self._environment = environment

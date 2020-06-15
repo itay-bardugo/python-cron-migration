@@ -24,3 +24,6 @@ class TaskManager:
 
     def upgrade(self):
         self.task().upgrade()
+
+    def downgrade(self):
+        self.task().downgrade()

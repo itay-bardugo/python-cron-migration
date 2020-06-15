@@ -69,8 +69,8 @@ class RevisionMapper:
     def _get_first_revision(self):
         return self._first_revision
 
-    def upgrade(self, revision: TaskManager):
-        revision.upgrade()
-        if not revision.next:
-            with open(self._environment.path_from_base('.rvsn'), "w") as f:
-                f.write(revision.get_revision_id())
+    def get_waiting_list(self):
+        revision = self.revisions[self.get_revision_to_upgrade]
+        while revision:
+            yield (self.revisions[revision.get_revision_id()])
+            revision = self.revisions[revision.get_revision_id()].next

@@ -89,7 +89,7 @@ class Init(BaseCommand):
         "Done.",
         BaseCommand._output.red,
         "Failed!",
-        success_indicator=None
+        success_indicator=0
     )
     def run(self):
         if error := self._path_exists():
@@ -102,4 +102,4 @@ class Init(BaseCommand):
         if not isinstance(has_access := self._validate_access(), bool):
             return has_access
 
-        return None
+        return 0

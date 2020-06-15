@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="1", # Replace with your own username
+    name="cronmig", # Replace with your own username
     version="0.0.1",
     author="Example Author",
     author_email="author@example.com",
@@ -14,23 +14,15 @@ setuptools.setup(
     url="",
     packages=setuptools.find_packages(),
     classifiers=[
-        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.8.3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
     entry_points={
-        "cronp": [
-            'db=cron_migration.app:cli'
-        ],
         "console_scripts": [
-            'cronp-db=cron_migration.app:cli'
+            'cronmig=cron_migration.cli.commands:cronmig',
+            'cronmig-revision=cron_migration.cli.commands:revision',
         ]
     },
-    python_requires='>=3.6',
+    python_requires='>=3.8.3',
 )
-
-import pkg_resources
-
-named_objects = {}
-for ep in pkg_resources.iter_entry_points(group='my_ep_group_id'):
-   named_objects.update({ep.name: ep.load()})

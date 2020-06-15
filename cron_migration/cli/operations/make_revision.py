@@ -22,4 +22,4 @@ class MakeRevision(BaseCommand):
         )(lambda: filename)
         log()
 
-        return None
+        return 0
