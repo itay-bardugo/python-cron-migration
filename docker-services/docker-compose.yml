@@ -1,0 +1,12 @@
+version: '3.7'
+services:
+    app:
+        shm_size: 1000000000
+        container_name: cronmig
+        #restart: always
+        build:
+            context: ../
+            dockerfile: docker-services/python/Dockerfile
+        tty: true
+        volumes:
+            - ../:/home/ubuntu
