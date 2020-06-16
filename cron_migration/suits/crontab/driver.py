@@ -7,8 +7,8 @@ class Driver:
         self._const_options = {}
 
     def _exec(self):
-        options = ['{}{}'.format(k, v).strip() for k, v in self._const_options.items()]
-        options += ["{} {}".format(k, v).strip() for k, v in self._options.items()]
+        options = [arg for k, v in self._const_options.items() for arg in ([k]+[v] if v else [k])]
+        options += [arg for k, v in self._options.items() for arg in ([k]+[v] if v else [k])]
         self._options = {}
         process = subprocess.Popen(["crontab"] + options, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         exit_code = process.wait()

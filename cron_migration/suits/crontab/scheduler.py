@@ -28,4 +28,4 @@ class Scheduler:
 
     def at_midnight(self):
         self._time[0:2] = ["0"] * 2
-        self._time[1:] = ["*"] * 4
+        self._time[2:] = ["*"] * 3
