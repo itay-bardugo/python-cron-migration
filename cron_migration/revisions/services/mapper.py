@@ -73,7 +73,7 @@ class RevisionMapper:
                 try:
                     json_ = json.load(f) if not json_ else json_
                 except json.JSONDecodeError:
-                    json_ = {}
+                    ...
                 try:
                     # todo handle error
                     revision_key = tail
