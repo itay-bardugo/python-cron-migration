@@ -11,6 +11,11 @@ class Downgrade(BaseCommand):
 
     def run(self):
         for revision in self._service.get_downgrades_list(self._steps):
+            try:
+                tail
+            except:
+                tail = self._service.get_tail_from_head(revision)
+
             log = BaseCommand._output.printed_task(
                 BaseCommand._output.blue,
                 f"downgrading file: {revision.path}, revision id: {revision.get_revision_id()}",
@@ -19,7 +24,7 @@ class Downgrade(BaseCommand):
                 BaseCommand._output.red,
                 "Failed!",
                 success_indicator=None
-            )(lambda: self._service.downgrade(revision))
+            )(lambda: self._service.downgrade(revision, tail))
             log()
 
         return 0
