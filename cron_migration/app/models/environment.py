@@ -3,12 +3,31 @@ import os
 
 
 class Environment:
-    def __init__(self, path: Path = None, template: str = "default"):
+    def __init__(self, path: Path = None, template: str = "default", head: bool = False):
         self._path = path
         self.template = template
+        self.head = head
 
     def get_real_path(self):
         return self.path.path
+
+    def save_last_head(self, signature):
+        try:
+            with open(self.path_from_base('.rvsn'), "w") as f:
+                f.write(signature)
+        except:
+            return False
+        return True
+
+    def get_last_head(self):
+        last = None
+        try:
+            with open(self.path_from_base('.rvsn'), "r") as f:
+                last = f.readline() or last
+        except:
+            ...
+        finally:
+            return last
 
     def get_script_path(self) -> Path:
         return Path(

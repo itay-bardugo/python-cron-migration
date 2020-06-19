@@ -11,7 +11,7 @@ class RevisionApply:
         self._mapper.review()
 
     def _save_last_revision(self, revision: TaskManager, tail: str):
-        with open(self._environment.path_from_base('.rvsn'), "r+") as f:
+        with open(self._environment.path_from_base('.json'), "r+") as f:
             try:
                 json_ = json.load(f)
             except json.JSONDecodeError:

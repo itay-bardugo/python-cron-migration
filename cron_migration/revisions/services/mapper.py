@@ -2,7 +2,7 @@ from cron_migration.app.models.environment import Environment
 import os
 import importlib.util
 import json
-from typing import Iterator, Set, Dict
+from typing import Iterator, Dict
 from cron_migration.revisions.manager import TaskManager
 
 
@@ -10,9 +10,7 @@ class RevisionMapper:
     def __init__(self, environment: Environment):
         self._environment = environment
         self.revisions: Dict[str, TaskManager] = {}
-        self.latest: Set[str] = set()
         self._last_upgraded_revision = ""
-        self._first_revision: TaskManager = None
         self._heads: Dict[str, TaskManager] = {}
         self._tails: Dict[str, TaskManager] = {}
 
@@ -35,17 +33,13 @@ class RevisionMapper:
                 continue
             self.revisions[revision.get_revision_id()] = revision
             if revision.get_down_revision() is None:
-                self._first_revision = revision
                 self._tails[revision.get_revision_id()] = revision
-            self.latest.add(revision.get_revision_id())
 
         for revision in self.revisions.values():
             if revision.get_down_revision() is None:
                 continue
             prev_revision = self.revisions[revision.get_down_revision()]
             prev_revision.set_next(revision.task)
-            if prev_revision.get_revision_id() in self.latest:
-                self.latest.discard(prev_revision.get_revision_id())
 
         for revision_id in self._tails:
             tail = revision_id
@@ -61,13 +55,14 @@ class RevisionMapper:
         return len(self._heads)
 
     def get_latest_revision(self):
-        for revision_id in self.latest:
-            return revision_id
+        if (revision_signature := self._environment.get_last_head()):
+            if revision_signature in self.revisions:
+                return self._tails[revision_signature].get_revision_id()
         return None
 
     @property
     def get_revision_to_upgrade(self):
-        with open(self._environment.path_from_base('.rvsn'), "r") as f:
+        with open(self._environment.path_from_base('.json'), "r") as f:
             json_ = {}
             for tail in self._tails:
                 try:
@@ -91,9 +86,6 @@ class RevisionMapper:
 
     def get_head_from_tail(self, revision: TaskManager):
         return self._tails[revision.get_revision_id()].get_revision_id()
-
-    def _get_first_revision(self):
-        return self._first_revision
 
     def get_waiting_list(self):
         for revision_to_update in self.get_revision_to_upgrade:

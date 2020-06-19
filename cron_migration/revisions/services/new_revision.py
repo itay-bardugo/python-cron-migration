@@ -1,4 +1,6 @@
 from cron_migration.revisions.model import Revision
+from cron_migration.app.models.environment import Environment
+
 from .mapper import RevisionMapper
 import uuid
 import datetime
@@ -6,13 +8,15 @@ from mako.template import Template
 
 
 class NewRevisionService:
-    def __init__(self, revision: Revision, revision_map: 'RevisionMapper', environment: 'Environment'):
+    def __init__(self, revision: Revision, revision_map: 'RevisionMapper', environment: Environment):
         self._revision = revision
         self._mapper = revision_map
         self._environment = environment
 
     def _set_revision_signature(self, sig=None):
         self._revision.signature = uuid.uuid4().hex.strip("-")[-16:] if sig is None else sig
+        if self._environment.head or not self._mapper.total_heads():
+            self._environment.save_last_head(self._revision.signature)
         return self._revision.signature
 
     def _set_date(self, dt_format=""):

@@ -13,6 +13,7 @@ from cron_migration.revisions.services.mapper import RevisionMapper
 def cronmig():
     ...
 
+
 @cronmig.command()
 @click.option('-n', '--dir-name', default="cronjobs")
 def init(dir_name):
@@ -28,9 +29,11 @@ def revision():
 
 @revision.command()
 @click.option('-n', '--dir-name', default="cronjobs")
+@click.option('-h', '--head', is_flag=True)
 @click.argument("message")
-def make(message, dir_name):
+def make(message, dir_name, head):
     environment.path = Path(os.path.join(os.getcwd(), dir_name))
+    environment.head = head
     revision_service = NewRevisionService(Revision(), RevisionMapper(environment), environment)
     exit(int(OperationsFacade.make_revision(revision_service, message)))
 
@@ -55,4 +58,4 @@ def downgrade(steps, dir_name):
 if __name__ == '__main__':
     ...
     # init()
-    #revision()
+    # revision()
