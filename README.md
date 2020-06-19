@@ -57,8 +57,10 @@ in order to separate non-relevant revision files and treat it like it was the fi
 In oredr to make it happen, just use the `-h`(short of "head") flag when running `cronmig-revision make [message]` command.
 
 Actually it looks like this:
+
 `cronmig-revision make -h "my new revision head file"`
-it creates a new revision file, but with no reference to the any previous revision file.
+
+it creates a new revision file, but with no reference to any previous revision file.
 
  
 ## Testing
