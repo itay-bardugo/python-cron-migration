@@ -51,13 +51,14 @@ pip install itay-bardugo-cron-migration -U
     1.  run `cronmig-revision upgrade`
 
 ### Branching
-when you make a new branch from a repo, you should tell `python-cron-migration` to start a new revision file, which represents the 
-beginning of your changes of the current branching (because all revision files from all branches are are exist within the "master" repo)
-in order to separate non-relevant revision files from your changes.
-to make it happen, just add `-h` flag to the `cronmig-revision make [message]` command.
-it looks like this:
+Once you create a new branch, you should tell `python-cron-migration` to start a new revision file, which represents the 
+**beginning** of your changes of the current branch (because all of the revision files from all branches are exist within the "master" repo)
+in order to separate non-relevant revision files and treat it like it was the first revision file that was ever made.
+In oredr to make it happen, just use the `-h`(short of "head") flag when running `cronmig-revision make [message]` command.
+
+Actually it looks like this:
 `cronmig-revision make -h "my new revision head file"`
-it creates a new revision file, but with no reference to the last revision file.
+it creates a new revision file, but with no reference to the any previous revision file.
 
  
 ## Testing
