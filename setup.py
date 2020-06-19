@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="itay-bardugo-cron-migration", # Replace with your own username
-    version="1.0.1",
+    version="1.1.0",
     author="Itay Bardugo",
     author_email="itaybardugo91@gmail.com",
     description="manage your cron jobs with python and a revision system(CLI)",

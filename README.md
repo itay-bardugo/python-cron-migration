@@ -26,6 +26,7 @@ pip install itay-bardugo-cron-migration -U
 
 
 ## Usage
+### Basic Usage
 ![](docs/readme.gif)
 1. init a new environment
     1. `cd` to your desired path
@@ -49,6 +50,16 @@ pip install itay-bardugo-cron-migration -U
     1. `cd` to the path where `cronjobs` was installed (do not `cd` into `cronjobs` folder)
     1.  run `cronmig-revision upgrade`
 
+### Branching
+when you make a new branch from a repo, you should tell `python-cron-migration` to start a new revision file, which represents the 
+beginning of your changes of the current branching (because all revision files from all branches are are exist within the "master" repo)
+in order to separate non-relevant revision files from your changes.
+to make it happen, just add `-h` flag to the `cronmig-revision make [message]` command.
+it looks like this:
+`cronmig-revision make -h "my new revision head file"`
+it creates a new revision file, but with no reference to the last revision file.
+
+ 
 ## Testing
 
 ``` bash
