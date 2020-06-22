@@ -40,7 +40,7 @@ pip install itay-bardugo-cron-migration -U
         |   +-- project
         |       +-- systemfile.py
         ```
-   1. upload`cronjobs/revisions` folder to git. (do not upload any other file.)
+   1. upload`cronjobs` folder to git, except .json and .rvsn files (its ok if it doest not exist, the engine generates it later)
 1. generate a new revision file
     1. `cd` to the path where `cronjobs` was installed (do not `cd` into `cronjobs` folder)
     1.  run `cronmig-revision make [replace-with-short-description]`
