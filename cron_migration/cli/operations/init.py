@@ -52,6 +52,7 @@ class Init(BaseCommand):
     def _copy_files(self):
         if isinstance(err := files_manager.copy_tree(Path(self._template), self._env._path), int):
             return err
+        files_manager.mkdir(Path(self._env.path.join("revisions")))
         return None
 
     @BaseCommand._output.printed_task(

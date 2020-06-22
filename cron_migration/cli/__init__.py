@@ -1,4 +1,3 @@
-__version__ = "0.0.1"
 
 from cron_migration.cli.manager import CommandsManager
 from cron_migration.cli.facade import OperationsFacade

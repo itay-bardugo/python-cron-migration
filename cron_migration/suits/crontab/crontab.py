@@ -37,6 +37,7 @@ class Crontab:
 
     def _save_changes(self, commands):
         path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tab.txt")
+        path = os.path.join(os.getcwd(), "tab.txt")
 
         try:
             os.unlink(path)

@@ -1,5 +1,6 @@
 import setuptools
 import os
+import cron_migration
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -14,8 +15,8 @@ if os.path.isfile(requirements_file):
                 install_requires.append(line.strip())
 
 setuptools.setup(
-    name="itay-bardugo-cron-migration", # Replace with your own username
-    version="1.1.1",
+    name="itay-bardugo-cron-migration",
+    version=cron_migration.__version__,
     author="Itay Bardugo",
     author_email="itaybardugo91@gmail.com",
     description="manage your cron jobs with python and a revision system(CLI)",
@@ -23,6 +24,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/itay-bardugo/python-cron-migration",
     packages=setuptools.find_packages(),
+    include_package_data=True,
     install_requires=install_requires,
     classifiers=[
         "Programming Language :: Python :: 3.8",

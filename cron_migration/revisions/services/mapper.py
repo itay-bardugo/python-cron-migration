@@ -62,6 +62,13 @@ class RevisionMapper:
 
     @property
     def get_revision_to_upgrade(self):
+        try:
+            with open(self._environment.path_from_base('.json'), "r") as f:
+                ...
+        except FileNotFoundError:
+            with open(self._environment.path_from_base('.json'), "w") as f:
+                ...
+
         with open(self._environment.path_from_base('.json'), "r") as f:
             json_ = {}
             for tail in self._tails:
