@@ -1,6 +1,6 @@
 -e .
 click==7.1.2
-Mako==1.1.2
+Mako==1.2.2
 MarkupSafe==1.1.1
 python-dateutil==2.8.1
 python-editor==1.0.4
